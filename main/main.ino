@@ -10,13 +10,28 @@ void motorLeftSpeed(uint8_t);
 
 ISR(USART1_RX_vect) {
   char send = UDR1;
-  writeChar(send);
 
-  motorStart();
+  switch(send) {
+    case 'w':
+      motorStart();
+      motorRightSpeed(255);
+      motorLeftSpeed(255);
+      break;
 
-  _delay_ms(200);
+    case 'a':
+      motorRightSpeed(180);
+      motorLeftSpeed(40);
+      break;
 
-  motorStop();
+    case 's':
+      motorStop();
+      break;
+
+    case 'd':
+      motorRightSpeed(40);
+      motorLeftSpeed(180);
+      break;
+  }
 }
 
 void setup() {
