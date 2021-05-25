@@ -28,7 +28,8 @@ void writeEEPROM(unsigned int memAddress, uint8_t value) {
 uint8_t readEEPROM(unsigned int memAddress) {
 
 	//wait for completion of write
-	while (EECR & (1 << EEPE));
+	while (EECR & (1 << EEPE))
+		;
 
 	//set memory address
 	EEAR = memAddress;

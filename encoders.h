@@ -3,7 +3,6 @@
 #include <util/delay.h>
 #include "motors.h"
 
-
 void resetEncoderTicks();
 void initEncoders();
 void leftEncoderInterruptHandler();
