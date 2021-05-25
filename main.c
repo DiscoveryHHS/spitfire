@@ -27,10 +27,11 @@ ISR(USART1_RX_vect) {
 	usartBuffer[usartBufferLength] = send;
 	usartBufferLength++;
 
-	char command[3];
-	char params[4][8];
-
+	// When return is send, we parse the buffer for a command with parameters.
 	if (send == '\n' || send == 13) {
+		char command[3];
+		char params[4][8];
+
 		usartSplitToCommand(usartBuffer, usartBufferLength, command, params);
 		usartBufferLength = 0;
 
