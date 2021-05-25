@@ -40,6 +40,14 @@ ISR(USART1_RX_vect) {
 			setLeftSpeed(atoi(params[0]), atoi(params[2]));
 			setRightSpeed(atoi(params[1]), atoi(params[3]));
 		}
+		// GE : GET_ENCODERS query.
+		else if (command[0] == 'G' && command[1] == 'E') {
+			writeString("EC:");
+			writeInt(getLeftEncoderTicks());
+			writeChar(',');
+			writeInt(getRightEncoderTicks());
+			writeChar('\n');
+		}
 	}
 }
 

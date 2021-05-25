@@ -8,3 +8,5 @@ void initEncoders();
 void leftEncoderInterruptHandler();
 void rightEncoderInterruptHandler();
 void calibrateMotors();
+uint64_t getLeftEncoderTicks();
+uint64_t getRightEncoderTicks();

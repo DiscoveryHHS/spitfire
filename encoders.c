@@ -162,3 +162,11 @@ void calibrateMotors() {
 	//reset encoders
 	resetEncoderTicks();
 }
+
+uint64_t getLeftEncoderTicks() {
+	return leftEncoderTicksCounter;
+}
+
+uint64_t getRightEncoderTicks() {
+	return rightEncoderTicksCounter;
+}
