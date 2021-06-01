@@ -7,7 +7,8 @@
 #include "encoders.h"
 #include "io.h"
 #include "eeprom.h"
-#include "adc.h"
+#include "timer.h"
+#include "proximitysensors.h"
 
 // Left encoder
 ISR(PCINT0_vect) {
@@ -17,6 +18,18 @@ ISR(PCINT0_vect) {
 // Right encoder
 ISR(INT6_vect) {
 	rightEncoderInterruptHandler();
+}
+
+ISR(TIMER0_COMPA_vect) {
+	static uint8_t counter;
+
+	if (counter ++ > 180) {
+		// ~ 3 sec interrupt
+
+		writeAllProximityValues();
+
+		counter = 0;
+	}
 }
 
 ISR(USART1_RX_vect) {
@@ -57,6 +70,7 @@ int main() {
 	initUsart();
 	initButtons();
 	startMotors();
+	initTimer0();
 
 	calibrateMotors();
 

@@ -17,5 +17,6 @@
  */
 
 void initADC(uint8_t startChannel);
+void stopADC();
 void setADCChannel(uint8_t channel);
 uint16_t readADCValue();

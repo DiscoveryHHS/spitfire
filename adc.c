@@ -7,6 +7,10 @@ void initADC(uint8_t startChannel) {
 	ADCSRA |= (1 << ADPS0) | (1 << ADPS1) | (1 << ADPS2); // Set prescaler at 128 (16Mhz / 200Khz = 80, closed rounded up it 128)
 }
 
+void stopADC() {
+	ADCSRA &= ~(1 << ADEN);
+}
+
 void setADCChannel(uint8_t channel) {
 	if (channel <= 7) {
 		ADCSRB &= ~(1 << MUX5);
