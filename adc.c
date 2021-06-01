@@ -19,7 +19,8 @@ void setADCChannel(uint8_t channel) {
 
 uint16_t readADCValue() {
 	ADCSRA |= (1 << ADSC); //Start conversion
-	while( ADCSRA & (1<<ADSC) ); // Wait for flag
+	while ( ADCSRA & (1 << ADSC))
+		; // Wait for flag
 	uint16_t value = ADC;
 	return value;
 }
