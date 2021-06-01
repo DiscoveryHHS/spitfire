@@ -45,15 +45,15 @@
     <CustomProgrammingToolTimeout>5</CustomProgrammingToolTimeout>
     <AsfFrameworkConfig>
       <framework-data xmlns="">
-  <options />
-  <configurations />
-  <files />
-  <documentation help="" />
-  <offline-documentation help="" />
-  <dependencies>
-    <content-extension eid="atmel.asf" uuidref="Atmel.ASF" version="3.49.1" />
-  </dependencies>
-</framework-data>
+        <options />
+        <configurations />
+        <files />
+        <documentation help="" />
+        <offline-documentation help="" />
+        <dependencies>
+          <content-extension eid="atmel.asf" uuidref="Atmel.ASF" version="3.49.1" />
+        </dependencies>
+      </framework-data>
     </AsfFrameworkConfig>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
@@ -166,6 +166,18 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="motors.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="proximitysensors.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="proximitysensors.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="timer.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="timer.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="usart.c">
