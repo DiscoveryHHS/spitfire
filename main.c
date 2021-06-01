@@ -7,6 +7,7 @@
 #include "encoders.h"
 #include "io.h"
 #include "eeprom.h"
+#include "adc.h"
 
 // Left encoder
 ISR(PCINT0_vect) {
