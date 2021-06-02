@@ -1,5 +1,4 @@
 #include "eeprom.h"
-#include <stdbool.h>
 
 void writeEEPROM(unsigned int memAddress, uint8_t value) {
 
@@ -40,12 +39,4 @@ uint8_t readEEPROM(unsigned int memAddress) {
 
 	//return de read
 	return EEDR;
-}
-
-bool checkEEPROMAddressAvailable(unsigned int memAddress) {
-  if (readEEPROM(memAddress) != 0)
-  {
-    return 0;
-  }
-  return 1;
 }

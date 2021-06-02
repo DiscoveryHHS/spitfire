@@ -1,11 +1,4 @@
-/*
- * Zumo 32u4.c
- *
- * Created: 1-6-2021 13:08:20
- * Author : albad
- */
-
-#define F_CPU 16000000 
+#define F_CPU 16000000
 
 #include <avr/io.h>
 #include <avr/interrupt.h>
@@ -16,10 +9,10 @@
 #include "encoders.h"
 #include "io.h"
 #include "eeprom.h"
-#include "buzzer.h"
-#include "irleds.h"
+#include "timer.h"
+#include "proximitysensors.h"
 
-//pin change interrupt, handles all pin change interrupts (included buttons A and C)
+// Left encoder
 ISR(PCINT0_vect) {
 	leftEncoderInterruptHandler();
 }
@@ -27,6 +20,18 @@ ISR(PCINT0_vect) {
 // Right encoder
 ISR(INT6_vect) {
 	rightEncoderInterruptHandler();
+}
+
+ISR(TIMER0_COMPA_vect) {
+	static uint8_t counter;
+
+	if (counter ++ > 180) {
+		// ~ 3 sec interrupt
+
+		writeAllProximityValues();
+
+		counter = 0;
+	}
 }
 
 ISR(USART1_RX_vect) {
@@ -67,24 +72,12 @@ int main() {
 	initUsart();
 	initButtons();
 	startMotors();
-	startBuzzerTimer();
-	playBuzzerStartupSound();
-	stopBuzzerTimer();
+	initTimer0();
+
 	calibrateMotors();
-	startIRLeds();
-	
-	//hoger dan 421 is niet goed, top van timer is 421
-	setIRBrightness(255);
-	
-	
-	
-	while(1)
-	{
 
-	}
-
+	while (1)
+		;
 
 	return (0);
 }
-
-
