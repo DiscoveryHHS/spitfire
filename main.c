@@ -82,11 +82,13 @@ int main() {
 	calibrateMotors();
 	startIRLeds();
 	
+	setRightSpeed(100000, 1);
+	setLeftSpeed(100000, 1);
+	
 	//hoger dan 421 is niet goed, top van timer is 421
-	setIRBrightness(255);
+	setIRBrightness(410);
 
-	while (1)
-		;
+	while (1);
 
 	return (0);
 }

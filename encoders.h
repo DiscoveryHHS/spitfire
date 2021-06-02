@@ -12,3 +12,5 @@ void calibrateMotors();
 uint64_t getLeftEncoderTicks();
 uint64_t getRightEncoderTicks();
 void getCalibrationDataFromEEPROM();
+double getLeftMotorRatio();
+double getRightMotorRatio();

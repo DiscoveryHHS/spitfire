@@ -141,6 +141,12 @@
     <Compile Include="adc.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="buzzer.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="buzzer.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="eeprom.c">
       <SubType>compile</SubType>
     </Compile>
@@ -157,6 +163,12 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="io.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="irleds.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="irleds.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="main.c">

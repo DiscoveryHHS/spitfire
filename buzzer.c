@@ -37,3 +37,8 @@ void playBuzzerStartupSound()
 	_delay_ms(250);
 	OCR4D = 0;
 }
+
+void setBuzzerDutyCycle(uint8_t dutyCycle)
+{
+	OCR4D = dutyCycle;
+}
