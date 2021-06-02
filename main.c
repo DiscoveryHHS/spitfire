@@ -11,6 +11,8 @@
 #include "eeprom.h"
 #include "timer.h"
 #include "proximitysensors.h"
+#include "buzzer.h"
+#include "irleds.h"
 
 // Left encoder
 ISR(PCINT0_vect) {
