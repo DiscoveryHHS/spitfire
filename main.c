@@ -72,7 +72,14 @@ int main() {
 	startMotors();
 	initTimer0();
 
+	startBuzzerTimer();
+	playBuzzerStartupSound();
+	stopBuzzerTimer();
 	calibrateMotors();
+	startIRLeds();
+	
+	//hoger dan 421 is niet goed, top van timer is 421
+	setIRBrightness(255);
 
 	while (1)
 		;
