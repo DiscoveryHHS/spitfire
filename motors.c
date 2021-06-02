@@ -5,6 +5,7 @@
  */
 
 #include "motors.h"
+#include "encoders.h"
 
 //set de snelheid van de linker rupsband, eerst timer 1 starten
 void setLeftSpeed(uint16_t leftSpeed, int driveForward) {
@@ -13,7 +14,7 @@ void setLeftSpeed(uint16_t leftSpeed, int driveForward) {
 	} else {
 		PORTB &= ~(1 << PORTB2);
 	}
-	OCR1B = leftSpeed;
+	OCR1B = leftSpeed * getLeftMotorRatio();
 }
 
 //set de snelheid van de rechter rupsband, eerst timer 1 starten
@@ -23,7 +24,7 @@ void setRightSpeed(uint16_t rightSpeed, int driveForward) {
 	} else {
 		PORTB &= ~(1 << PORTB1);
 	}
-	OCR1A = rightSpeed;
+	OCR1A = rightSpeed * getRightMotorRatio();
 }
 
 //start timer 1 die beide motoren met pwm aanstuurt
