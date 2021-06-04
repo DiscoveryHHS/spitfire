@@ -18,9 +18,12 @@ void startBuzzerTimer()
 
 void stopBuzzerTimer()
 {
-	TCCR4B &= ~((1 << CS43) | (1 << CS40));
+	TCCR4A = 0;
+	TCCR4B = 0;
 	DDRD &= ~(1 << PORTD7);
-	TCCR4C &= ~((1 << COM4D1) | (0 << COM4D0) | (1 << PWM4D));
+	TCCR4C = 0;
+	OCR4D = 0;
+	TCCR4D = 0;
 }
 
 void playBuzzerStartupSound()
@@ -36,9 +39,4 @@ void playBuzzerStartupSound()
 	OCR4D = 50;
 	_delay_ms(250);
 	OCR4D = 0;
-}
-
-void setBuzzerDutyCycle(uint8_t dutyCycle)
-{
-	OCR4D = dutyCycle;
 }

@@ -6,6 +6,7 @@
  */
 
 #include "encoders.h"
+#include "eeprom.h"
 
 //encoder ticks
 volatile uint64_t leftEncoderTicksCounter = 0;
@@ -129,22 +130,22 @@ void calibrateMotors() {
 	//stuk vooruit
 	setLeftSpeed(DEFAULTSPEED, 1);
 	setRightSpeed(DEFAULTSPEED, 1);
-	_delay_ms(10000);
+	_delay_ms(1000);
 
 	//stuk achteruit
 	setLeftSpeed(DEFAULTSPEED, 0);
 	setRightSpeed(DEFAULTSPEED, 0);
-	_delay_ms(10000);
+	_delay_ms(1000);
 
 	//draai linksom
 	setLeftSpeed(DEFAULTSPEED, 0);
 	setRightSpeed(DEFAULTSPEED, 1);
-	_delay_ms(5000);
+	_delay_ms(500);
 
 	//draai rechtsom
 	setLeftSpeed(DEFAULTSPEED, 1);
 	setRightSpeed(DEFAULTSPEED, 0);
-	_delay_ms(5000);
+	_delay_ms(500);
 
 	//stop beide motoren
 	setLeftSpeed(0, 1);
@@ -153,7 +154,7 @@ void calibrateMotors() {
 	//bereken motor ratio's
 	  if (leftEncoderTicksCounter > rightEncoderTicksCounter)
   {
-    leftMotorRatio = (((((double) rightEncoderTicksCounter) / ((double) leftEncoderTicksCounter)) * 0.98));
+    leftMotorRatio = (((((double) rightEncoderTicksCounter) / ((double) leftEncoderTicksCounter)) * 0.98) * 18446744073709551616);
 
     //write to memory addresses in EEPROM
     for (uint16_t i = 0; i < 8; i++)
@@ -164,7 +165,7 @@ void calibrateMotors() {
   }
   else
   {
-    rightMotorRatio = (((((double) leftEncoderTicksCounter) / ((double) rightEncoderTicksCounter)) * 0.98));
+    rightMotorRatio = (((((double) leftEncoderTicksCounter) / ((double) rightEncoderTicksCounter)) * 0.98) * 18446744073709551616);
 
     //write to memory addresses in EEPROM
     for (uint16_t i = 0; i < 8; i++)
@@ -200,10 +201,13 @@ void getCalibrationDataFromEEPROM() {
   }
 }
 
-double getLeftMotorRatio(){
-	return leftMotorRatio;
+double getLeftMotorRatio()
+{
+  	return leftMotorRatio;
 }
 
-double getRightMotorRatio(){
+double getRightMotorRatio()
+{
 	return rightMotorRatio;
 }
+

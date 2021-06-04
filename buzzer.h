@@ -4,4 +4,3 @@
 void startBuzzerTimer();
 void stopBuzzerTimer();
 void playBuzzerStartupSound();
-void setBuzzerDutyCycle(uint8_t);

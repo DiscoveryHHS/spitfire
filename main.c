@@ -1,4 +1,11 @@
-#define F_CPU 16000000
+/*
+ * Zumo 32u4.c
+ *
+ * Created: 1-6-2021 13:08:20
+ * Author : albad
+ */
+
+#define F_CPU 16000000 
 
 #include <avr/io.h>
 #include <avr/interrupt.h>
@@ -9,12 +16,15 @@
 #include "encoders.h"
 #include "io.h"
 #include "eeprom.h"
+#include "buzzer.h"
+#include "adc.h"
 #include "timer.h"
 #include "proximitysensors.h"
-#include "buzzer.h"
-#include "irleds.h"
 
-// Left encoder
+static volatile bool leftIRLedsEnabled = 1;
+static volatile uint8_t timer0Counter = 0;
+
+//pin change interrupt, handles all pin change interrupts (included buttons A and C)
 ISR(PCINT0_vect) {
 	leftEncoderInterruptHandler();
 }
@@ -22,18 +32,6 @@ ISR(PCINT0_vect) {
 // Right encoder
 ISR(INT6_vect) {
 	rightEncoderInterruptHandler();
-}
-
-ISR(TIMER0_COMPA_vect) {
-	static uint8_t counter;
-
-	if (counter ++ > 180) {
-		// ~ 3 sec interrupt
-
-		writeAllProximityValues();
-
-		counter = 0;
-	}
 }
 
 ISR(USART1_RX_vect) {
@@ -69,26 +67,44 @@ ISR(USART1_RX_vect) {
 	}
 }
 
+//gaat ongeveer 60 keer per seconde af
+ISR(TIMER0_COMPA_vect)
+{
+	timer0Counter++;
+	
+	if(timer0Counter >= 60)
+	{
+		//start cycle adc conversies
+		startADCProximityCycle();
+		
+		timer0Counter = 0;
+	}
+}
+
+ISR(ADC_vect)
+{
+	proxSensADCInterruptHandler();
+}
+
 int main() {
 	initEncoders();
 	initUsart();
 	initButtons();
 	startMotors();
-	initTimer0();
-
 	startBuzzerTimer();
 	playBuzzerStartupSound();
 	stopBuzzerTimer();
 	calibrateMotors();
-	startIRLeds();
+	initIRLeds();
+	initTimer0();
+	initADC(1);
 	
-	setRightSpeed(100000, 1);
-	setLeftSpeed(100000, 1);
+	while(1)
+	{
+		
+	}
 	
-	//hoger dan 421 is niet goed, top van timer is 421
-	setIRBrightness(410);
-
-	while (1);
-
 	return (0);
 }
+
+
