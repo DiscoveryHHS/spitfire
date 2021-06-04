@@ -26,6 +26,7 @@ volatile bool leftIRLedsEnabled = 1;
 //pin change interrupt, handles all pin change interrupts (included buttons A and C)
 ISR(PCINT0_vect) {
 	leftEncoderInterruptHandler();
+	buttonsInterruptHandler();
 }
 
 // Right encoder

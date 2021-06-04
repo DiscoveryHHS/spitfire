@@ -13,3 +13,22 @@ void initButtons() {
 	// Enable interrupts for button A and C
 	PCMSK0 |= ((1 << PCINT3) | (1 << PCINT0));
 }
+
+
+void buttonsInterruptHandler() {
+	//pcint 3 (button A), only when from high to low (wich means button is pressed)
+	if (~PINB & (1 << PINB3)) {
+		//small debounce
+		_delay_ms(10);
+		if (~PINB & (1 << PINB3)) {
+		}
+	}
+
+	//pcint 0 (button C), only when from high to low (wich means button is pressed)
+	if (~PINB & (1 << PINB0)) {
+		//small debounce
+		_delay_ms(10);
+		if (~PINB & (1 << PINB0)) {
+		}
+	}
+}
