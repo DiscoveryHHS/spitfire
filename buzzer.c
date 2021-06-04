@@ -4,8 +4,7 @@
 #include <util/delay.h>
 #include "buzzer.h"
 
-void startBuzzerTimer()
-{
+void startBuzzerTimer() {
 	//prescaler op /8
 	TCCR4B = 1 << CS43 | 1 << CS40;
 
@@ -16,8 +15,7 @@ void startBuzzerTimer()
 	TCCR4C = ((1 << COM4D1) | (0 << COM4D0) | (1 << PWM4D));
 }
 
-void stopBuzzerTimer()
-{
+void stopBuzzerTimer() {
 	TCCR4A = 0;
 	TCCR4B = 0;
 	DDRD &= ~(1 << PORTD7);
@@ -26,13 +24,11 @@ void stopBuzzerTimer()
 	TCCR4D = 0;
 }
 
-void playBuzzerStartupSound()
-{
-	for(uint8_t i = 0; i < 3; i++)
-	{
+void playBuzzerStartupSound() {
+	for (uint8_t i = 0; i < 3; i++) {
 		OCR4D = 50;
 		_delay_ms(75);
-		OCR4D =  0;
+		OCR4D = 0;
 		_delay_ms(250);
 	}
 	_delay_ms(500);

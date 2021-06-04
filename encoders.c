@@ -136,28 +136,31 @@ void calibrateMotors() {
 	setRightSpeed(0, 1);
 
 	//bereken motor ratio's
-	  if (leftEncoderTicksCounter > rightEncoderTicksCounter)
-  {
-    leftMotorRatio = (((((double) rightEncoderTicksCounter) / ((double) leftEncoderTicksCounter)) * 0.98) * 18446744073709551616);
+	if (leftEncoderTicksCounter > rightEncoderTicksCounter) {
+		leftMotorRatio = (((((double) rightEncoderTicksCounter)
+				/ ((double) leftEncoderTicksCounter)) * 0.98)
+				* 18446744073709551616);
 
-    //write to memory addresses in EEPROM
-    for (uint16_t i = 0; i < 8; i++)
-    {
-      //vermenigvuldig met max van 64 bit unsigned int voor precisie
-      writeEEPROM((i + 210), (((uint64_t)(leftMotorRatio * 18446744073709551616)) & (0x000000FF << (i * 8))));
-    }
-  }
-  else
-  {
-    rightMotorRatio = (((((double) leftEncoderTicksCounter) / ((double) rightEncoderTicksCounter)) * 0.98) * 18446744073709551616);
+		//write to memory addresses in EEPROM
+		for (uint16_t i = 0; i < 8; i++) {
+			//vermenigvuldig met max van 64 bit unsigned int voor precisie
+			writeEEPROM((i + 210),
+					(((uint64_t) (leftMotorRatio * 18446744073709551616))
+							& (0x000000FF << (i * 8))));
+		}
+	} else {
+		rightMotorRatio = (((((double) leftEncoderTicksCounter)
+				/ ((double) rightEncoderTicksCounter)) * 0.98)
+				* 18446744073709551616);
 
-    //write to memory addresses in EEPROM
-    for (uint16_t i = 0; i < 8; i++)
-    {
-      //vermenigvuldig met max van 64 bit unsigned int voor precisie
-      writeEEPROM((i + 218), (((uint64_t)(rightMotorRatio * 18446744073709551616)) & (0x000000FF << (i * 8))));
-    }
-  }
+		//write to memory addresses in EEPROM
+		for (uint16_t i = 0; i < 8; i++) {
+			//vermenigvuldig met max van 64 bit unsigned int voor precisie
+			writeEEPROM((i + 218),
+					(((uint64_t) (rightMotorRatio * 18446744073709551616))
+							& (0x000000FF << (i * 8))));
+		}
+	}
 
 	//reset encoders
 	resetEncoderTicks();
@@ -174,24 +177,29 @@ uint64_t getRightEncoderTicks() {
 //function to get calibration data from EEPROM
 void getCalibrationDataFromEEPROM() {
 
-  //deel beide door 18446744073709551616 voor precisie (max van 64 bit uint)
-  leftMotorRatio = (double)(((readEEPROM(210) << 56) | (readEEPROM(211) << 48) | (readEEPROM(212) << 40) | (readEEPROM(213) << 32) | (readEEPROM(214) << 24) | (readEEPROM(215) << 16) | (readEEPROM(216) << 8) | (readEEPROM(217))) / 18446744073709551616);
-  rightMotorRatio = (double)(((readEEPROM(218) << 56) | (readEEPROM(219) << 48) | (readEEPROM(220) << 40) | (readEEPROM(221) << 32) | (readEEPROM(222) << 24) | (readEEPROM(223) << 16) | (readEEPROM(224) << 8) | (readEEPROM(225))) / 18446744073709551616);
+	//deel beide door 18446744073709551616 voor precisie (max van 64 bit uint)
+	leftMotorRatio = (double) (((readEEPROM(210) << 56)
+			| (readEEPROM(211) << 48) | (readEEPROM(212) << 40)
+			| (readEEPROM(213) << 32) | (readEEPROM(214) << 24)
+			| (readEEPROM(215) << 16) | (readEEPROM(216) << 8)
+			| (readEEPROM(217))) / 18446744073709551616);
+	rightMotorRatio = (double) (((readEEPROM(218) << 56)
+			| (readEEPROM(219) << 48) | (readEEPROM(220) << 40)
+			| (readEEPROM(221) << 32) | (readEEPROM(222) << 24)
+			| (readEEPROM(223) << 16) | (readEEPROM(224) << 8)
+			| (readEEPROM(225))) / 18446744073709551616);
 
-  if((leftMotorRatio == 0) || (rightMotorRatio == 0))
-  {
-	leftMotorRatio = 1;
-	rightMotorRatio = 1;
-  }
+	if ((leftMotorRatio == 0) || (rightMotorRatio == 0)) {
+		leftMotorRatio = 1;
+		rightMotorRatio = 1;
+	}
 }
 
-double getLeftMotorRatio()
-{
-  	return leftMotorRatio;
+double getLeftMotorRatio() {
+	return leftMotorRatio;
 }
 
-double getRightMotorRatio()
-{
+double getRightMotorRatio() {
 	return rightMotorRatio;
 }
 

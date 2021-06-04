@@ -14,7 +14,6 @@ void initButtons() {
 	PCMSK0 |= ((1 << PCINT3) | (1 << PCINT0));
 }
 
-
 void buttonsInterruptHandler() {
 	//pcint 3 (button A), only when from high to low (wich means button is pressed)
 	if (~PINB & (1 << PINB3)) {

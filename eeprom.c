@@ -43,9 +43,8 @@ uint8_t readEEPROM(unsigned int memAddress) {
 }
 
 bool checkEEPROMAddressAvailable(unsigned int memAddress) {
-  if (readEEPROM(memAddress) != 0)
-  {
-    return 0;
-  }
-  return 1;
+	if (readEEPROM(memAddress) != 0) {
+		return 0;
+	}
+	return 1;
 }

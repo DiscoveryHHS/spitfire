@@ -67,23 +67,20 @@ ISR(USART1_RX_vect) {
 }
 
 //gaat ongeveer 60 keer per seconde af
-ISR(TIMER0_COMPA_vect)
-{
+ISR(TIMER0_COMPA_vect) {
 	static uint8_t timer0Counter = 0;
 
 	timer0Counter++;
-	
-	if(timer0Counter >= 60)
-	{
+
+	if (timer0Counter >= 60) {
 		//start cycle adc conversies
 		startADCProximityCycle();
-		
+
 		timer0Counter = 0;
 	}
 }
 
-ISR(ADC_vect)
-{
+ISR(ADC_vect) {
 	proxSensADCInterruptHandler();
 }
 
@@ -99,10 +96,9 @@ int main() {
 	initIRLeds();
 	initTimer0();
 	initADC(1);
-	
-	while(1)
+
+	while (1)
 		;
 	return (0);
 }
-
 

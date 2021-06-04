@@ -25,7 +25,6 @@ void startADCConversion() {
 	ADCSRA |= (1 << ADSC); //Start conversion
 }
 
-uint16_t readADC()
-{
+uint16_t readADC() {
 	return ADC;
 }
