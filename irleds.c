@@ -1,5 +1,5 @@
 #include <avr/io.h>
-#include "IRLeds.h"
+#include "irleds.h"
 
 //initializes infrared lights at front and middle, are connected to timer 3 PWM
 
