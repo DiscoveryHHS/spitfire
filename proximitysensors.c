@@ -1,18 +1,18 @@
 #include "proximitysensors.h"
 
 //sensor vars
-static volatile uint16_t currBrightnessLevel = 0;
+volatile uint16_t currBrightnessLevel = 0;
 const uint8_t sensorChannels[] = {5, 1, 1, 8}; //adc channels voor prox sensors
 const uint8_t sensorCount = 3;
 
 //at index 0 left prox sens value, 1 is front prox sens value, 2 is right prox sens value, at FINAL index 0 is the brightness level
-static volatile uint16_t RAWproximitySensorValues[5][4];
-static volatile uint16_t finalProximitySensorValues[5][4];
-static volatile uint8_t currSensor = 0; 
+volatile uint16_t rawProximitySensorValues[5][4];
+volatile uint16_t finalProximitySensorValues[5][4];
+volatile uint8_t currSensor = 0;
 
 //brightness levels from small to great for IR Leds
-static volatile uint16_t brightnessLevels[] = {350, 375, 400, 410, 415};
-static volatile uint8_t brightnessLevelsCounter = 0;
+volatile uint16_t brightnessLevels[] = {350, 375, 400, 410, 415};
+volatile uint8_t brightnessLevelsCounter = 0;
 
 //serial prints all proximity values including brightness levels
 void writeAllProximityValues() {
@@ -33,7 +33,7 @@ void writeAllProximityValues() {
 //wordt uigevoerd op het moment dat een ADC conversie van een van de proximity sensoren voltooid is, doet telkens 1 cycle van een x aantal verschillende brightness levels voor elke sensor en stopt daarna
 void proxSensADCInterruptHandler(){
 	//lees waarde uit register
-	RAWproximitySensorValues[brightnessLevelsCounter][currSensor] = ADC;
+	rawProximitySensorValues[brightnessLevelsCounter][currSensor] = ADC;
 	
 	//werk variabele current sensor bij
 	currSensor++;
@@ -90,9 +90,9 @@ void finalizeRAWProximityValues(){
 		finalProximitySensorValues[i][0] = brightnessLevels[i];
 		
 		//cycle trough all measurements and take average of 1 and 2 (middle sensor from left led and middle sensor from right led)
-		finalProximitySensorValues[i][1] = RAWproximitySensorValues[i][0];
-		finalProximitySensorValues[i][2] = ((RAWproximitySensorValues[i][1] + RAWproximitySensorValues[i][2]) / 2);
-		finalProximitySensorValues[i][3] = RAWproximitySensorValues[i][3];
+		finalProximitySensorValues[i][1] = rawProximitySensorValues[i][0];
+		finalProximitySensorValues[i][2] = ((rawProximitySensorValues[i][1] + rawProximitySensorValues[i][2]) / 2);
+		finalProximitySensorValues[i][3] = rawProximitySensorValues[i][3];
 	}
 }
 

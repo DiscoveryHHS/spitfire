@@ -21,8 +21,7 @@
 #include "timer.h"
 #include "proximitysensors.h"
 
-static volatile bool leftIRLedsEnabled = 1;
-static volatile uint8_t timer0Counter = 0;
+volatile bool leftIRLedsEnabled = 1;
 
 //pin change interrupt, handles all pin change interrupts (included buttons A and C)
 ISR(PCINT0_vect) {
@@ -70,6 +69,8 @@ ISR(USART1_RX_vect) {
 //gaat ongeveer 60 keer per seconde af
 ISR(TIMER0_COMPA_vect)
 {
+	static uint8_t timer0Counter = 0;
+
 	timer0Counter++;
 	
 	if(timer0Counter >= 60)
