@@ -18,17 +18,14 @@ void initButtons() {
 void buttonsInterruptHandler() {
 	//pcint 3 (button A), only when from high to low (wich means button is pressed)
 	if (~PINB & (1 << PINB3)) {
-		//small debounce
-		_delay_ms(10);
-		if (~PINB & (1 << PINB3)) {
-		}
+		// Do stuff on button A pressed.
 	}
 
 	//pcint 0 (button C), only when from high to low (wich means button is pressed)
 	if (~PINB & (1 << PINB0)) {
-		//small debounce
-		_delay_ms(10);
-		if (~PINB & (1 << PINB0)) {
-		}
+		// Do stuff on button C pressed.
 	}
+
+	//small debounce
+	_delay_ms(10);
 }
