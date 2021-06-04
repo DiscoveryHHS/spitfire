@@ -1,11 +1,12 @@
 /*
  * Zumo 32u4.c
  *
- * Created: 1-6-2021 13:08:20
- * Author : albad
+ * Created: 2021-05
+ * Authors : Wouter de Bruijn
+ * 			 Stan Albada Jelgersma
  */
 
-#define F_CPU 16000000 
+#define F_CPU 16000000
 
 #include <avr/io.h>
 #include <avr/interrupt.h>
@@ -100,10 +101,7 @@ int main() {
 	initADC(1);
 	
 	while(1)
-	{
-		
-	}
-	
+		;
 	return (0);
 }
 
