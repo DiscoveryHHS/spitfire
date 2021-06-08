@@ -21,6 +21,7 @@
 #include "adc.h"
 #include "timer.h"
 #include "proximitysensors.h"
+#include "gyro.h"
 
 //pin change interrupt, handles all pin change interrupts (included buttons A and C)
 ISR(PCINT0_vect) {
@@ -96,9 +97,30 @@ int main() {
 	initIRLeds();
 	initTimer0();
 	initADC(1);
+	
+	initI2c();
+	
+	// Enable chip
+	writeReg(0x6B, GYRO_ADDR, 0);
 
-	while (1)
-		;
+	writeReg(0x19, GYRO_ADDR, 7); // 8Khz / (1 + 7) = 1Khz
+
+	// Set full range for both degrees and acceleration
+	writeReg(0x1B, GYRO_ADDR, 0);
+	writeReg(0x1C, GYRO_ADDR, 0);
+
+	setRegister(0x75, GYRO_ADDR); // WHO_AM_I
+	uint8_t gyroResponse = readReg(GYRO_ADDR);
+	writeInt(gyroResponse);
+	writeString(" == 104 [Gyro send first]\n\r");
+
+	while (1) {
+		readGyroX();
+		readAccelX();
+
+		_delay_ms(1000);
+	};
+	
 	return (0);
 }
 
