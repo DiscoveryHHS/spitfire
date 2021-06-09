@@ -11,6 +11,7 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
+#include <stdbool.h>
 
 #include "motors.h"
 #include "usart.h"
@@ -78,9 +79,14 @@ ISR(TIMER0_COMPA_vect) {
 		startADCProximityCycle();
 	}
 	
-	if((timer0Counter % 4) == 0)
+	if(((timer0Counter % 4) == 0) && obstacleAvoidanceModeIsEnabled())
 	{
 		obstacleAvoider();
+	}
+	
+	if((timer0Counter % 30) == 0)
+	{
+		writeAllProximityValues();
 	}
 }
 
@@ -96,7 +102,8 @@ int main() {
 	startBuzzerTimer();
 	playBuzzerStartupSound();
 	stopBuzzerTimer();
-	//calibrateMotors();
+	calibrateMotors();
+	stopEncoders();
 	initIRLeds();
 	initTimer0();
 	initADC(1);

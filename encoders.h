@@ -8,6 +8,7 @@
 
 void resetEncoderTicks();
 void initEncoders();
+void stopEncoders();
 void leftEncoderInterruptHandler();
 void rightEncoderInterruptHandler();
 void calibrateMotors();

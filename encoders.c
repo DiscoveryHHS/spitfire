@@ -54,6 +54,18 @@ void initEncoders() {
 	PCIFR |= (1 << PCIF0);
 }
 
+void stopEncoders()
+{
+	//stop interrupts voor pin change 4
+	PCMSK0 &= ~(1 << PCINT4);
+	
+	//bij elke logische verandering geen interrupt op int6
+	EICRB &= ~(1 << ISC60);
+	
+	//disable interrupts voor int6
+	EIMSK &= ~(1 << INT6);
+}
+
 void leftEncoderInterruptHandler() {
 
 	//check wich pcint is generated
@@ -116,22 +128,46 @@ void calibrateMotors() {
 	//stuk vooruit
 	setLeftSpeed(DEFAULTSPEED, 1);
 	setRightSpeed(DEFAULTSPEED, 1);
-	_delay_ms(1000);
+	while(1)
+	{
+		if(leftEncoderTicksCounter > 2500 || rightEncoderTicksCounter > 2500)
+		{
+			break;
+		}
+	}
 
 	//stuk achteruit
 	setLeftSpeed(DEFAULTSPEED, 0);
 	setRightSpeed(DEFAULTSPEED, 0);
-	_delay_ms(1000);
+	while(1)
+	{
+		if(leftEncoderTicksCounter > 5000 || rightEncoderTicksCounter > 5000)
+		{
+			break;
+		}
+	}
 
 	//draai linksom
 	setLeftSpeed(DEFAULTSPEED, 0);
 	setRightSpeed(DEFAULTSPEED, 1);
-	_delay_ms(500);
+	while(1)
+	{
+		if(leftEncoderTicksCounter > 6000 || rightEncoderTicksCounter > 6000)
+		{
+			break;
+		}
+	}
 
 	//draai rechtsom
 	setLeftSpeed(DEFAULTSPEED, 1);
 	setRightSpeed(DEFAULTSPEED, 0);
-	_delay_ms(500);
+	while(1)
+	{
+		if(leftEncoderTicksCounter > 7000 || rightEncoderTicksCounter > 7000)
+		{
+			break;
+		}
+	}
 
 	//stop beide motoren
 	setLeftSpeed(0, 1);
@@ -139,9 +175,7 @@ void calibrateMotors() {
 
 	//bereken motor ratio's
 	if (leftEncoderTicksCounter > rightEncoderTicksCounter) {
-		leftMotorRatio = (((((double) rightEncoderTicksCounter)
-				/ ((double) leftEncoderTicksCounter)) * 0.98)
-				* 18446744073709551616);
+		leftMotorRatio = (((((double) rightEncoderTicksCounter)/ ((double) leftEncoderTicksCounter)) * 0.98));
 
 		//write to memory addresses in EEPROM
 		for (uint16_t i = 0; i < 8; i++) {
@@ -151,9 +185,7 @@ void calibrateMotors() {
 							& (0x000000FF << (i * 8))));
 		}
 	} else {
-		rightMotorRatio = (((((double) leftEncoderTicksCounter)
-				/ ((double) rightEncoderTicksCounter)) * 0.98)
-				* 18446744073709551616);
+		rightMotorRatio = (((((double) leftEncoderTicksCounter)/ ((double) rightEncoderTicksCounter)) * 0.98));
 
 		//write to memory addresses in EEPROM
 		for (uint16_t i = 0; i < 8; i++) {
