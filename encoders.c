@@ -119,18 +119,17 @@ void rightEncoderInterruptHandler() {
 
 void calibrateMotors() {
 
-	//wacht even en reset encoder ticks
-	_delay_ms(100);
+	//reset encoder ticks
 	resetEncoderTicks();
 
-	uint16_t DEFAULTSPEED = getDefaultSpeed();
+	uint64_t DEFAULTSPEED = getDefaultSpeed();
 
 	//stuk vooruit
 	setLeftSpeed(DEFAULTSPEED, 1);
 	setRightSpeed(DEFAULTSPEED, 1);
 	while(1)
 	{
-		if(leftEncoderTicksCounter > 2500 || rightEncoderTicksCounter > 2500)
+		if((leftEncoderTicksCounter > 2500) && (rightEncoderTicksCounter > 2500))
 		{
 			break;
 		}
@@ -141,29 +140,40 @@ void calibrateMotors() {
 	setRightSpeed(DEFAULTSPEED, 0);
 	while(1)
 	{
-		if(leftEncoderTicksCounter > 5000 || rightEncoderTicksCounter > 5000)
+		if((leftEncoderTicksCounter > 5000) && (rightEncoderTicksCounter > 5000))
 		{
 			break;
 		}
 	}
 
-	//draai linksom
+	//draai ongeveer kwart linksom
 	setLeftSpeed(DEFAULTSPEED, 0);
 	setRightSpeed(DEFAULTSPEED, 1);
 	while(1)
 	{
-		if(leftEncoderTicksCounter > 6000 || rightEncoderTicksCounter > 6000)
+		if((leftEncoderTicksCounter > 6000) && (rightEncoderTicksCounter > 6000))
 		{
 			break;
 		}
 	}
 
-	//draai rechtsom
+	//draai ongeveer halve draai rechtsom
 	setLeftSpeed(DEFAULTSPEED, 1);
 	setRightSpeed(DEFAULTSPEED, 0);
 	while(1)
 	{
-		if(leftEncoderTicksCounter > 7000 || rightEncoderTicksCounter > 7000)
+		if((leftEncoderTicksCounter > 8000) && (rightEncoderTicksCounter > 8000))
+		{
+			break;
+		}
+	}
+	
+	//draai ongeveer kwart linksom
+	setLeftSpeed(DEFAULTSPEED, 0);
+	setRightSpeed(DEFAULTSPEED, 1);
+	while(1)
+	{
+		if((leftEncoderTicksCounter > 9000) && (rightEncoderTicksCounter > 9000))
 		{
 			break;
 		}

@@ -95,15 +95,19 @@ ISR(ADC_vect) {
 }
 
 int main() {
-	initEncoders();
 	initUsart();
 	initButtons();
+	initEncoders();
 	startMotors();
 	startBuzzerTimer();
 	playBuzzerStartupSound();
 	stopBuzzerTimer();
+	sei();
 	calibrateMotors();
 	stopEncoders();
+	startBuzzerTimer();
+	playBuzzerStartupSound();
+	stopBuzzerTimer();
 	initIRLeds();
 	initTimer0();
 	initADC(1);
