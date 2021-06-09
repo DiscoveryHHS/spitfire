@@ -8,7 +8,7 @@
 #include "encoders.h"
 #include "proximitysensors.h"
 
-static volatile uint16_t DEFAULTSPEED = 20000;
+volatile uint16_t DEFAULTSPEED = 20000;
 
 //set de snelheid van de linker rupsband, eerst timer 1 starten
 void setLeftSpeed(uint16_t leftSpeed, int driveForward) {
@@ -47,7 +47,7 @@ void startMotors() {
 
 	//default in vooruit mode
 	PORTB &= ~((1 << PORTB1) | (1 << PORTB2));
-	
+
 	//flags en mask registers naar 0 voor geen interrupts
 	TIMSK1 = 0;
 	TIFR1 = 0;
@@ -61,57 +61,50 @@ void stopMotors() {
 	OCR1B = 0;
 }
 
-void obstacleAvoider(){
+void obstacleAvoider() {
 	static uint16_t *proxSens;
-	
+
 	//verkrijg proximity sensor data
 	proxSens = getFinalProxSensValuesPointer();
-	
+
 	//verkrijg prox sensor data
 	proxSens = getFinalProxSensValuesPointer();
-	
+
 	//check of rechtdoor vrij is
-	if(((*(proxSens + (4 * 4) + 2)) < 550))
-	{
+	if (((*(proxSens + (4 * 4) + 2)) < 550)) {
 		//rechtdoor is niet vrij, vergelijk rechts met links, kies degene waar de meeste ruimte is
-		if(((*(proxSens + (4 * 4) + 1))) >= ((*(proxSens + (4 * 4) + 3))))
-		{
+		if (((*(proxSens + (4 * 4) + 1))) >= ((*(proxSens + (4 * 4) + 3)))) {
 			//aan de linkerkant is meer ruimte, draai naar links
 			setLeftSpeed(DEFAULTSPEED, 0);
 			setRightSpeed(DEFAULTSPEED, 1);
-		}
-		else
-		{
+		} else {
 			//aan de rechterkant is meer ruimte, draai naar rechts
 			setLeftSpeed(DEFAULTSPEED, 1);
 			setRightSpeed(DEFAULTSPEED, 0);
 		}
 	}
-	
+
 	//check of links vrij is
-	else if(((*(proxSens + (1 * 4) + 1)) < 550))
-	{
+	else if (((*(proxSens + (1 * 4) + 1)) < 550)) {
 		//links is niet vrij, draai naar rechts
 		setLeftSpeed(DEFAULTSPEED, 1);
 		setRightSpeed(DEFAULTSPEED, 0);
 	}
-	
+
 	//check of rechts vrij is
-	else if(((*(proxSens + (1 * 4) + 3)) < 550))
-	{
+	else if (((*(proxSens + (1 * 4) + 3)) < 550)) {
 		//rechts is niet vrij, draai naar links
 		setLeftSpeed(DEFAULTSPEED, 0);
 		setRightSpeed(DEFAULTSPEED, 1);
 	}
-	
-	else
-	{
+
+	else {
 		//rij normaal vooruit
 		setLeftSpeed(DEFAULTSPEED, 1);
 		setRightSpeed(DEFAULTSPEED, 1);
 	}
 }
 
-uint16_t getDefaultSpeed(){
+uint16_t getDefaultSpeed() {
 	return DEFAULTSPEED;
 }
