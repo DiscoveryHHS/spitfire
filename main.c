@@ -68,18 +68,16 @@ ISR(USART1_RX_vect) {
 
 //gaat ongeveer 60 keer per seconde af
 ISR(TIMER0_COMPA_vect) {
-	
+
 	static uint8_t timer0Counter = 0;
 	timer0Counter++;
 
 	//start cycle adc conversies
-	if((timer0Counter % 2) == 0)
-	{
+	if ((timer0Counter % 2) == 0) {
 		startADCProximityCycle();
 	}
-	
-	if((timer0Counter % 4) == 0)
-	{
+
+	if ((timer0Counter % 4) == 0) {
 		obstacleAvoider();
 	}
 }
@@ -100,9 +98,9 @@ int main() {
 	initIRLeds();
 	initTimer0();
 	initADC(1);
-	
-	while (1){
-		
+
+	while (1) {
+
 	};
 	return (0);
 }
