@@ -47,13 +47,22 @@ void setRegister(uint8_t r, uint8_t device) {
 	i2cStopOperation();
 }
 
-uint16_t readReg(uint8_t device) {
+uint8_t readReg8(uint8_t device) {
 	i2cStartOperation();
 	i2cSend((device << 1) + 1); //i2c address master read
 	uint8_t x = i2cReadAck();
 	i2cReadNoAck();
 	i2cStopOperation();
-	return x; // Shift x 8 bits to the left, then add y so we create a 16bit output
+	return x;
+}
+
+uint16_t readReg16(uint8_t device) {
+	i2cStartOperation();
+	i2cSend((device << 1) + 1); //i2c address master read
+	uint8_t x = i2cReadAck();
+	uint8_t y = i2cReadNoAck();
+	i2cStopOperation();
+	return (x * 256) + y;
 }
 
 void writeReg(uint8_t address, uint8_t device, uint8_t data) {

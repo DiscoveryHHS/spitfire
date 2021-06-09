@@ -86,37 +86,40 @@ ISR(ADC_vect) {
 }
 
 int main() {
-	initEncoders();
+//	initEncoders();
 	initUsart();
-	initButtons();
-	startMotors();
-	startBuzzerTimer();
-	playBuzzerStartupSound();
-	stopBuzzerTimer();
-	calibrateMotors();
-	initIRLeds();
-	initTimer0();
-	initADC(1);
+//	initButtons();
+//	startMotors();
+//	startBuzzerTimer();
+//	playBuzzerStartupSound();
+//	stopBuzzerTimer();
+//	calibrateMotors();
+//	initIRLeds();
+//	initTimer0();
+//	initADC(1);
 	
 	initI2c();
 	
-	// Enable chip
-	writeReg(0x6B, GYRO_ADDR, 0);
+	// Enable Gyro
+	writeReg(0x20, GYRO_ADDR, 0b01111111); // DR = 01 (189.4 Hz ODR); BW = 11 (70 Hz bandwidth); PD = 1 (normal mode); Zen = Yen = Xen = 1 (all axes enabled)
+	writeReg(0x23, GYRO_ADDR, 0x20); // FS = 10 (+/- 2000 dps full scale)
 
-	writeReg(0x19, GYRO_ADDR, 7); // 8Khz / (1 + 7) = 1Khz
+	// Enable Magnetometer
+//	writeReg(0x24, MEGN_ADDR, 0x64); // M_RES = 11 (high resolution mode); M_ODR = 001 (6.25 Hz ODR)
+//	writeReg(0x25, MEGN_ADDR, 0x20); // MFS = 01 (+/- 4 gauss full scale)
+//	writeReg(0x26, MEGN_ADDR, 0x00); // MD = 00 (continuous-conversion mode)
 
-	// Set full range for both degrees and acceleration
-	writeReg(0x1B, GYRO_ADDR, 0);
-	writeReg(0x1C, GYRO_ADDR, 0);
-
-	setRegister(0x75, GYRO_ADDR); // WHO_AM_I
-	uint8_t gyroResponse = readReg(GYRO_ADDR);
-	writeInt(gyroResponse);
-	writeString(" == 104 [Gyro send first]\n\r");
+	writeString("Good till now \n\r");
 
 	while (1) {
 		readGyroX();
-		readAccelX();
+
+//		setRegister(0x08, MEGN_ADDR); // GYRO_XOUT_H
+//		uint16_t data = readReg16(MEGN_ADDR);
+//
+//		writeString("MEGN: ");
+//		writeInt(data);
+//		writeString("\n\r");
 
 		_delay_ms(1000);
 	};
