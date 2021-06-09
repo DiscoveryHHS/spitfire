@@ -50,8 +50,8 @@ void proxSensADCInterruptHandler() {
 		//werk final array bij
 		finalizeRAWProximityValues();
 
-		//serieel print alle resultaten
-		//writeAllProximityValues();
+		//zet IRleds uit
+		setIRBrightness(0);
 
 		//stop voor deze cycle
 		return;
@@ -65,7 +65,8 @@ void proxSensADCInterruptHandler() {
 		//linker sensors zijn actief dus schijn naar links
 		setIRLedsDirection(twoLeftIRLeds);
 
-	} else if (currSensor >= 2) {
+	} 
+	else if (currSensor >= 2) {
 		//rechter sensors zijn actief dus schijn naar rechts
 		setIRLedsDirection(twoRightIRLeds);
 	}
