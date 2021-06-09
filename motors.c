@@ -8,7 +8,7 @@
 #include "encoders.h"
 #include "proximitysensors.h"
 
-static volatile uint16_t DEFAULTSPEED = 20000;
+volatile uint16_t DEFAULTSPEED = 20000;
 
 //set de snelheid van de linker rupsband, eerst timer 1 starten
 void setLeftSpeed(uint16_t leftSpeed, int driveForward) {
