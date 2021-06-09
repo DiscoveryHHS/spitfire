@@ -6,9 +6,9 @@
 
 #include <avr/io.h>
 
-#define DEFAULTSPEED 65535
-
 void setLeftSpeed(uint16_t, int);
 void setRightSpeed(uint16_t, int);
 void startMotors();
 void stopMotors();
+void obstacleAvoider();
+uint16_t getDefaultSpeed();

@@ -11,9 +11,8 @@ volatile uint16_t finalProximitySensorValues[5][4];
 volatile uint8_t currSensor = 0;
 
 //brightness levels from small to great for IR Leds
-volatile uint16_t brightnessLevels[] = { 350, 375, 400, 410, 415 };
+volatile uint16_t brightnessLevels[] = {380, 390, 400, 410, 420};
 volatile uint8_t brightnessLevelsCounter = 0;
-
 //serial prints all proximity values including brightness levels
 void writeAllProximityValues() {
 	uint8_t i, j;
@@ -52,7 +51,7 @@ void proxSensADCInterruptHandler() {
 		finalizeRAWProximityValues();
 
 		//serieel print alle resultaten
-		writeAllProximityValues();
+		//writeAllProximityValues();
 
 		//stop voor deze cycle
 		return;
@@ -96,20 +95,26 @@ void initIRLeds() {
 }
 
 //starts cycle with interrupts wich reads all sensor values at different brightness settings
-void startADCProximityCycle() {
+void startADCProximityCycle() 
+{
 	//reset vars
 	currSensor = 0;
 	brightnessLevelsCounter = 0;
-
+	
 	//set first adc channel
 	setADCChannel(sensorChannels[currSensor]);
-
+	
 	//set right brightness for IR leds
 	setIRBrightness(brightnessLevels[brightnessLevelsCounter]);
-
+	
 	//set proper direction for leds
 	setIRLedsDirection(twoLeftIRLeds);
-
+	
 	//start ADC conversion
 	startADCConversion();
+}
+
+uint16_t *getFinalProxSensValuesPointer()
+{
+	return finalProximitySensorValues;
 }

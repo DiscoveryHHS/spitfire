@@ -108,8 +108,10 @@ void rightEncoderInterruptHandler() {
 void calibrateMotors() {
 
 	//wacht even en reset encoder ticks
-	_delay_ms(1000);
+	_delay_ms(100);
 	resetEncoderTicks();
+	
+	uint16_t DEFAULTSPEED = getDefaultSpeed();
 
 	//stuk vooruit
 	setLeftSpeed(DEFAULTSPEED, 1);
