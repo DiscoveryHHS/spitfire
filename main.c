@@ -105,9 +105,6 @@ int main() {
 	sei();
 	calibrateMotors();
 	stopEncoders();
-	startBuzzerTimer();
-	playBuzzerStartupSound();
-	stopBuzzerTimer();
 	initIRLeds();
 	initTimer0();
 	initADC(1);
