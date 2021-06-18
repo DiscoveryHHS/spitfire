@@ -21,12 +21,11 @@ void buttonsInterruptHandler() {
 	if (~PINB & (1 << PINB3)) {
 		// Do stuff on button A pressed, in this case enable or disable the obstacle avoidance mode
 		obstacleAvoidModeEnabled = !obstacleAvoidModeEnabled;
-		
-		if(!obstacleAvoidModeEnabled)
-		{
+
+		if (!obstacleAvoidModeEnabled) {
 			//set speeds to 0
 			setLeftSpeed(0, 1);
-			setRightSpeed(0,1);
+			setRightSpeed(0, 1);
 		}
 	}
 
@@ -41,12 +40,10 @@ void buttonsInterruptHandler() {
 }
 
 //if set to bool 1 or true, obstacle avoid mode is enabled, else disabled
-void setObstacleAvoidMode(bool enable)
-{
+void setObstacleAvoidMode(bool enable) {
 	obstacleAvoidModeEnabled = enable;
 }
 
-bool obstacleAvoidanceModeIsEnabled()
-{
+bool obstacleAvoidanceModeIsEnabled() {
 	return obstacleAvoidModeEnabled;
 }
