@@ -97,9 +97,9 @@ int main() {
 //	initIRLeds();
 //	initTimer0();
 //	initADC(1);
-	
+
 	initI2c();
-	
+
 	// Enable Gyro
 	writeReg(0x20, GYRO_ADDR, 0b01111111); // DR = 01 (189.4 Hz ODR); BW = 11 (70 Hz bandwidth); PD = 1 (normal mode); Zen = Yen = Xen = 1 (all axes enabled)
 	writeReg(0x23, GYRO_ADDR, 0x20); // FS = 10 (+/- 2000 dps full scale)
@@ -112,18 +112,12 @@ int main() {
 	writeString("Good till now \n\r");
 
 	while (1) {
-		readGyroX();
 
-//		setRegister(0x08, MEGN_ADDR); // GYRO_XOUT_H
-//		uint16_t data = readReg16(MEGN_ADDR);
-//
-//		writeString("MEGN: ");
-//		writeInt(data);
-//		writeString("\n\r");
+		readGyroX();
 
 		_delay_ms(1000);
 	};
-	
+
 	return (0);
 }
 
