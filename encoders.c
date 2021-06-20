@@ -6,6 +6,10 @@
  */
 
 #include "encoders.h"
+
+#include <util/delay.h>
+
+#include "motors.h"
 #include "eeprom.h"
 
 //encoder ticks

@@ -1,5 +1,10 @@
 #include "usart.h"
 
+#include <avr/interrupt.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 void writeChar(char x) {
 	while (~UCSR1A & (1 << UDRE1))
 		;
