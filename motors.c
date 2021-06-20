@@ -6,7 +6,7 @@
 
 #include "motors.h"
 #include "encoders.h"
-#include "proximitysensors.h"
+#include "advProximity.h"
 
 volatile uint16_t DEFAULTSPEED = 50000;
 
@@ -62,12 +62,9 @@ void stopMotors() {
 }
 
 void obstacleAvoider() {
-	static uint16_t *proxSens;
+	static uint16_t proxSens[];
 
 	//verkrijg proximity sensor data
-	proxSens = getFinalProxSensValuesPointer();
-
-	//verkrijg prox sensor data
 	proxSens = getFinalProxSensValuesPointer();
 
 	//check of rechtdoor vrij is

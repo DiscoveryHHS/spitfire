@@ -5,8 +5,13 @@
  * pin A | pin B | pin A   |  pin B | pin A | pin B | pin A | pin B
  */
 
-#include "encoders.h"
+#include <avr/io.h>
+#include <avr/interrupt.h>
+#include <util/delay.h>
+
+#include "motors.h"
 #include "eeprom.h"
+#include "encoders.h"
 
 //encoder ticks
 volatile uint64_t leftEncoderTicksCounter = 0;

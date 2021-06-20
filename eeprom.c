@@ -1,5 +1,8 @@
-#include "eeprom.h"
+#include <avr/io.h>
+#include <avr/interrupt.h>
 #include <stdbool.h>
+
+#include "eeprom.h"
 
 void writeEEPROM(unsigned int memAddress, uint8_t value) {
 

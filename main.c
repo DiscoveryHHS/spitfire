@@ -22,6 +22,7 @@
 #include "adc.h"
 #include "timer.h"
 #include "proximitysensors.h"
+#include "autodrive.h"
 
 //pin change interrupt, handles all pin change interrupts (included buttons A and C)
 ISR(PCINT0_vect) {
@@ -70,25 +71,22 @@ ISR(USART1_RX_vect) {
 //gaat ongeveer 60 keer per seconde af
 ISR(TIMER0_COMPA_vect) {
 
-	static uint8_t timer0Counter = 0;
+	static uint16_t timer0Counter = 0;
 	timer0Counter++;
 
-	//start cycle adc conversies
-	if ((timer0Counter % 2) == 0) {
-		startADCProximityCycle();
-	}
+//	if (timer0Counter % 5 == 0) {
+//		cycle();
+//	}
 
-	if (((timer0Counter % 4) == 0) && obstacleAvoidanceModeIsEnabled()) {
-		obstacleAvoider();
-	}
+	if (timer0Counter > 30) {
+		// If we are not in autodrive, read rp
+		if (getStatus() == 0) {
+			updateProximityValues();
+			writeAllProximityValues();
+		}
 
-	if ((timer0Counter % 30) == 0) {
-		writeAllProximityValues();
+		timer0Counter = 0;
 	}
-}
-
-ISR(ADC_vect) {
-	proxSensADCInterruptHandler();
 }
 
 int main() {
