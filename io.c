@@ -27,16 +27,17 @@ void buttonsInterruptHandler() {
 			setLeftSpeed(0, 1);
 			setRightSpeed(0, 1);
 		}
+		//small debounce
+		_delay_ms(15);
 	}
 
 	//pcint 0 (button C), only when from high to low (wich means button is pressed)
 	if (~PINB & (1 << PINB0)) {
 		// Do stuff on button C pressed, in this case this is a force stop for the motors
 		stopMotors();
+		//small debounce
+		_delay_ms(15);
 	}
-
-	//small debounce
-	_delay_ms(15);
 }
 
 //if set to bool 1 or true, obstacle avoid mode is enabled, else disabled
