@@ -73,18 +73,21 @@ ISR(TIMER0_COMPA_vect) {
 	static uint8_t timer0Counter = 0;
 	timer0Counter++;
 
-	//start cycle adc conversies
-	if ((timer0Counter % 2) == 0) {
-		startADCProximityCycle();
+	if (obstacleAvoidanceModeIsEnabled()) {
+		//start cycle adc conversies
+		if ((timer0Counter % 2) == 0) {
+			startADCProximityCycle();
+		}
+
+		if (((timer0Counter % 4) == 0)) {
+			obstacleAvoider();
+		}
+
+		if ((timer0Counter % 30) == 0) {
+			writeAllProximityValues();
+		}
 	}
 
-	if (((timer0Counter % 4) == 0) && obstacleAvoidanceModeIsEnabled()) {
-		obstacleAvoider();
-	}
-
-	if ((timer0Counter % 30) == 0) {
-		writeAllProximityValues();
-	}
 }
 
 ISR(ADC_vect) {

@@ -23,9 +23,12 @@ void buttonsInterruptHandler() {
 		obstacleAvoidModeEnabled = !obstacleAvoidModeEnabled;
 
 		if (!obstacleAvoidModeEnabled) {
+			stopADC();
 			//set speeds to 0
 			setLeftSpeed(0, 1);
 			setRightSpeed(0, 1);
+		} else {
+			initADC(1);
 		}
 		//small debounce
 		_delay_ms(15);
