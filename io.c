@@ -1,4 +1,5 @@
 #include "io.h"
+#include <util/delay.h>
 
 volatile bool obstacleAvoidModeEnabled = 0;
 
@@ -21,32 +22,33 @@ void buttonsInterruptHandler() {
 	if (~PINB & (1 << PINB3)) {
 		// Do stuff on button A pressed, in this case enable or disable the obstacle avoidance mode
 		obstacleAvoidModeEnabled = !obstacleAvoidModeEnabled;
-		
-		if(!obstacleAvoidModeEnabled)
-		{
+
+		if (!obstacleAvoidModeEnabled) {
+			stopADC();
 			//set speeds to 0
 			setLeftSpeed(0, 1);
-			setRightSpeed(0,1);
+			setRightSpeed(0, 1);
+		} else {
+			initADC(1);
 		}
+		//small debounce
+		_delay_ms(15);
 	}
 
 	//pcint 0 (button C), only when from high to low (wich means button is pressed)
 	if (~PINB & (1 << PINB0)) {
 		// Do stuff on button C pressed, in this case this is a force stop for the motors
 		stopMotors();
+		//small debounce
+		_delay_ms(15);
 	}
-
-	//small debounce
-	_delay_ms(15);
 }
 
 //if set to bool 1 or true, obstacle avoid mode is enabled, else disabled
-void setObstacleAvoidMode(bool enable)
-{
+void setObstacleAvoidMode(bool enable) {
 	obstacleAvoidModeEnabled = enable;
 }
 
-bool obstacleAvoidanceModeIsEnabled()
-{
+bool obstacleAvoidanceModeIsEnabled() {
 	return obstacleAvoidModeEnabled;
 }

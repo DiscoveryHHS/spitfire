@@ -1,5 +1,9 @@
 #include "proximitysensors.h"
 
+#include "irleds.h"
+#include "adc.h"
+#include "usart.h"
+
 //sensor vars
 volatile uint16_t currBrightnessLevel = 0;
 const uint8_t sensorChannels[] = { 5, 1, 1, 8 }; //adc channels voor prox sensors
@@ -65,8 +69,7 @@ void proxSensADCInterruptHandler() {
 		//linker sensors zijn actief dus schijn naar links
 		setIRLedsDirection(twoLeftIRLeds);
 
-	} 
-	else if (currSensor >= 2) {
+	} else if (currSensor >= 2) {
 		//rechter sensors zijn actief dus schijn naar rechts
 		setIRLedsDirection(twoRightIRLeds);
 	}

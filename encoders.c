@@ -6,6 +6,10 @@
  */
 
 #include "encoders.h"
+
+#include <util/delay.h>
+
+#include "motors.h"
 #include "eeprom.h"
 
 //encoder ticks
@@ -54,14 +58,13 @@ void initEncoders() {
 	PCIFR |= (1 << PCIF0);
 }
 
-void stopEncoders()
-{
+void stopEncoders() {
 	//stop interrupts voor pin change 4
 	PCMSK0 &= ~(1 << PCINT4);
-	
+
 	//bij elke logische verandering geen interrupt op int6
 	EICRB &= ~(1 << ISC60);
-	
+
 	//disable interrupts voor int6
 	EIMSK &= ~(1 << INT6);
 }
@@ -127,10 +130,9 @@ void calibrateMotors() {
 	//stuk vooruit
 	setLeftSpeed(DEFAULTSPEED, 1);
 	setRightSpeed(DEFAULTSPEED, 1);
-	while(1)
-	{
-		if((leftEncoderTicksCounter > 2500) && (rightEncoderTicksCounter > 2500))
-		{
+	while (1) {
+		if ((leftEncoderTicksCounter > 2500)
+				&& (rightEncoderTicksCounter > 2500)) {
 			break;
 		}
 	}
@@ -138,10 +140,9 @@ void calibrateMotors() {
 	//stuk achteruit
 	setLeftSpeed(DEFAULTSPEED, 0);
 	setRightSpeed(DEFAULTSPEED, 0);
-	while(1)
-	{
-		if((leftEncoderTicksCounter > 5000) && (rightEncoderTicksCounter > 5000))
-		{
+	while (1) {
+		if ((leftEncoderTicksCounter > 5000)
+				&& (rightEncoderTicksCounter > 5000)) {
 			break;
 		}
 	}
@@ -149,10 +150,9 @@ void calibrateMotors() {
 	//draai ongeveer kwart linksom
 	setLeftSpeed(DEFAULTSPEED, 0);
 	setRightSpeed(DEFAULTSPEED, 1);
-	while(1)
-	{
-		if((leftEncoderTicksCounter > 6000) && (rightEncoderTicksCounter > 6000))
-		{
+	while (1) {
+		if ((leftEncoderTicksCounter > 6000)
+				&& (rightEncoderTicksCounter > 6000)) {
 			break;
 		}
 	}
@@ -160,21 +160,19 @@ void calibrateMotors() {
 	//draai ongeveer halve draai rechtsom
 	setLeftSpeed(DEFAULTSPEED, 1);
 	setRightSpeed(DEFAULTSPEED, 0);
-	while(1)
-	{
-		if((leftEncoderTicksCounter > 8000) && (rightEncoderTicksCounter > 8000))
-		{
+	while (1) {
+		if ((leftEncoderTicksCounter > 8000)
+				&& (rightEncoderTicksCounter > 8000)) {
 			break;
 		}
 	}
-	
+
 	//draai ongeveer kwart linksom
 	setLeftSpeed(DEFAULTSPEED, 0);
 	setRightSpeed(DEFAULTSPEED, 1);
-	while(1)
-	{
-		if((leftEncoderTicksCounter > 9000) && (rightEncoderTicksCounter > 9000))
-		{
+	while (1) {
+		if ((leftEncoderTicksCounter > 9000)
+				&& (rightEncoderTicksCounter > 9000)) {
 			break;
 		}
 	}
@@ -185,7 +183,8 @@ void calibrateMotors() {
 
 	//bereken motor ratio's
 	if (leftEncoderTicksCounter > rightEncoderTicksCounter) {
-		leftMotorRatio = (((((double) rightEncoderTicksCounter)/ ((double) leftEncoderTicksCounter)) * 0.98));
+		leftMotorRatio = (((((double) rightEncoderTicksCounter)
+				/ ((double) leftEncoderTicksCounter)) * 0.98));
 
 		//write to memory addresses in EEPROM
 		for (uint16_t i = 0; i < 8; i++) {
@@ -195,7 +194,8 @@ void calibrateMotors() {
 							& (0x000000FF << (i * 8))));
 		}
 	} else {
-		rightMotorRatio = (((((double) leftEncoderTicksCounter)/ ((double) rightEncoderTicksCounter)) * 0.98));
+		rightMotorRatio = (((((double) leftEncoderTicksCounter)
+				/ ((double) rightEncoderTicksCounter)) * 0.98));
 
 		//write to memory addresses in EEPROM
 		for (uint16_t i = 0; i < 8; i++) {
