@@ -20,19 +20,24 @@ void stopBuzzerTimer() {
 	TCCR4B = 0;
 	DDRD &= ~(1 << PORTD7);
 	TCCR4C = 0;
-	OCR4D = 0;
+	setBuzzerDutyCycle(0);
 	TCCR4D = 0;
+}
+
+void setBuzzerDutyCycle(uint8_t dutyCycle)
+{
+	OCR4D = dutyCycle;
 }
 
 void playBuzzerStartupSound() {
 	for (uint8_t i = 0; i < 3; i++) {
-		OCR4D = 50;
+		setBuzzerDutyCycle(128);
 		_delay_ms(75);
-		OCR4D = 0;
+		setBuzzerDutyCycle(0);
 		_delay_ms(250);
 	}
 	_delay_ms(500);
-	OCR4D = 50;
+	setBuzzerDutyCycle(128);
 	_delay_ms(250);
-	OCR4D = 0;
+	setBuzzerDutyCycle(0);
 }
