@@ -98,11 +98,11 @@ int main() {
 	initUsart();
 	initButtons();
 	initEncoders();
+	sei();
 	startMotors();
 	startBuzzerTimer();
 	playBuzzerStartupSound();
 	stopBuzzerTimer();
-	sei();
 	calibrateMotors();
 	//stopEncoders();
 	initIRLeds();
