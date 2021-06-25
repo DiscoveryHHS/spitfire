@@ -104,7 +104,7 @@ int main() {
 	stopBuzzerTimer();
 	sei();
 	calibrateMotors();
-	stopEncoders();
+	//stopEncoders();
 	initIRLeds();
 	initTimer0();
 	initADC(1);
